@@ -5,9 +5,11 @@ name: .NET
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - '*'
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - '*'
 
 jobs:
   build-and-test:
@@ -22,7 +24,7 @@ jobs:
         dotnet-version: 8.0.x
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src/FifteenPuzzleWix.sln
       
     - name: Build
       run: dotnet build ./src/FifteenPuzzleWix.sln --no-restore
