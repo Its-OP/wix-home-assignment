@@ -102,9 +102,9 @@ public class GameBoardMoveTileTests
     
     /// <summary>
     /// Returns the following board:<br />
-    /// 6  1  2  3<br />
-    /// 4  5  0  7<br />
-    /// 8  9 10 11<br />
+    ///  6  1  2  3<br />
+    ///  4  5  0  7<br />
+    ///  8  9 10 11<br />
     /// 12 13 14 15
     /// </summary>
     /// <returns></returns>

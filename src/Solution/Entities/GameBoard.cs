@@ -8,6 +8,9 @@ public class GameBoard
     private readonly int[,] _tilesConfiguration;
     private readonly Dictionary<int, Point> _tilesCoordinates;
 
+    private long _deviationFromWinningConfiguration;
+    public bool IsInWinningConfiguration => _deviationFromWinningConfiguration == 0;
+
     public GameBoard(int[,] tiles)
     {
         Guard.That(tiles.GetLength(0) == tiles.GetLength(1), "Tiles must be positioned in a square");
@@ -16,6 +19,15 @@ public class GameBoard
 
         _tilesCoordinates = GetTilesCoordinates(tiles);
         _tilesConfiguration = tiles;
+        
+        for (var i = 0; i < tiles.GetLength(0); i++) 
+        { 
+            for (var j = 0; j < tiles.GetLength(1); j++) 
+            {
+                var tile = tiles[i, j];
+                _deviationFromWinningConfiguration += GetDeviationForTile(tile, new Point(i, j), tiles);
+            } 
+        }
     }
 
     public bool MoveTile(int tile, Direction direction)
@@ -92,10 +104,33 @@ public class GameBoard
     private void SwapTileWithEmptyOne(Point coordinatesOfMovedTile, int movedTile)
     {
         var coordinatesOfEmptyTile = _tilesCoordinates[EmptyTilePlaceholder];
+
+        var currentDeviationForEmptyTile = GetDeviationForTile(EmptyTilePlaceholder, _tilesCoordinates[EmptyTilePlaceholder], _tilesConfiguration);
+        var currentDeviationForMovedTile = GetDeviationForTile(movedTile, _tilesCoordinates[movedTile], _tilesConfiguration);
         
         _tilesConfiguration[coordinatesOfEmptyTile.I, coordinatesOfEmptyTile.J] = movedTile;
         _tilesConfiguration[coordinatesOfMovedTile.I, coordinatesOfMovedTile.J] = EmptyTilePlaceholder;
         _tilesCoordinates[movedTile] = coordinatesOfEmptyTile;
         _tilesCoordinates[EmptyTilePlaceholder] = coordinatesOfMovedTile;
+        
+        var newDeviationForEmptyTile = GetDeviationForTile(EmptyTilePlaceholder, _tilesCoordinates[EmptyTilePlaceholder], _tilesConfiguration);
+        var newDeviationForMovedTile = GetDeviationForTile(movedTile, _tilesCoordinates[movedTile], _tilesConfiguration);
+        
+        _deviationFromWinningConfiguration += newDeviationForEmptyTile + newDeviationForMovedTile - currentDeviationForEmptyTile - currentDeviationForMovedTile;
+    }
+
+    private int GetDeviationForTile(int tile, Point coordinates, int[,] tilesConfiguration)
+    {
+        var deviation = 0;
+        if (coordinates.I != tilesConfiguration.GetLength(0) - 1 || coordinates.J != tilesConfiguration.GetLength(1) - 1)
+        {
+            deviation += Math.Abs(tile - (coordinates.I * tilesConfiguration.GetLength(1) + coordinates.J + 1));
+        }
+        else
+        {
+            deviation += tile;
+        }
+        
+        return deviation;
     }
 }
