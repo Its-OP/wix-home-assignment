@@ -5,7 +5,7 @@ namespace Solution.Presentation;
 
 public static class GameBoardStringifier
 {
-    public static string ToString(GameBoard gameBoard)
+    public static string ToString(GameBoard gameBoard, char emptyTilePlaceholder)
     {
         var tilesConfiguration = gameBoard.GetTilesConfiguration();
         
@@ -18,8 +18,12 @@ public static class GameBoardStringifier
             for (var j = 0; j < gameBoard.NumberOfColumns; j++)
             {
                 // Format each number with padding
-                var formattedNumber = tilesConfiguration[i, j].ToString().PadLeft(columnWidth);
-                result.Append(formattedNumber);
+                var tile = tilesConfiguration[i, j];
+                if (tile == GameBoard.EmptyTilePlaceholder)
+                    result.Append(new string(emptyTilePlaceholder, columnWidth));
+                else
+                    // Format each number with padding
+                    result.Append(tile.ToString().PadLeft(columnWidth));
                 
                 if (j < gameBoard.NumberOfColumns - 1)
                 {

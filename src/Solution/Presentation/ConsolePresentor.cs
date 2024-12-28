@@ -5,6 +5,8 @@ namespace Solution.Presentation;
 
 public static class ConsolePresentation
 {
+    private const char EmptyTilePlaceholder = '-';
+    
     public static void PlayGame(int boardSize)
     {
         var gameBoard = new GameBoard(TilesConfigurationGenerator.Generate(boardSize));
@@ -44,7 +46,7 @@ public static class ConsolePresentation
             var rowLength = GameBoardStringifier.GetStringRowLength(gameBoard);
             var lineDivider = new string('=', rowLength);
             Console.WriteLine(lineDivider);
-            Console.WriteLine(GameBoardStringifier.ToString(gameBoard));
+            Console.WriteLine(GameBoardStringifier.ToString(gameBoard, EmptyTilePlaceholder));
             Console.WriteLine(lineDivider);
         }
     }

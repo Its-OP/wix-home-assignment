@@ -18,7 +18,7 @@ public class GameBoardStringifierUnitTests
                                                 """;
         
         // Act
-        var stringifiedGameBoard = GameBoardStringifier.ToString(gameBoard);
+        var stringifiedGameBoard = GameBoardStringifier.ToString(gameBoard, '-');
         
         // Assert
         Assert.That(stringifiedGameBoard, Is.EqualTo(expectedStringifiedGameBoard));
