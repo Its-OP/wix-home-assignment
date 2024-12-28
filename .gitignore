@@ -1,0 +1,51 @@
+# .NET Core
+bin/
+obj/
+
+# Rider project files
+.idea/
+*.iml
+.idea_modules/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# Rider-specific files
+.idea/
+.idea/**
+*.sublime-workspace
+*.sublime-project
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Build directories
+debug/
+release/
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+
+# Resharper files
+_ReSharper*/
+*.DotSettings.user
+
+# JetBrains Rider caches
+.idea/
+*.dotCover
+*.dotSettings.user
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Other
+.vscode/
+.vs/
