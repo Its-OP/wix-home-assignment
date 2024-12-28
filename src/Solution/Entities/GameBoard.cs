@@ -4,7 +4,7 @@ namespace Solution.Entities;
 
 public class GameBoard
 {
-    const int EmptyTilePlaceholder = 0;
+    private const int EmptyTilePlaceholder = 0;
     private readonly int[,] _tilesConfiguration;
     private readonly Dictionary<int, Point> _tilesCoordinates;
 
