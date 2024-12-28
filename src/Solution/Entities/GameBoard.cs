@@ -17,7 +17,6 @@ public class GameBoard
 
     public GameBoard(int[,] tiles)
     {
-        Guard.That(tiles.GetLength(0) == tiles.GetLength(1), "Tiles must be positioned in a square");
         var (tilesAreValid, validationError) = SetOfTilesIsValid(tiles);
         Guard.That(tilesAreValid, validationError);
 

@@ -14,7 +14,7 @@ public static class ConsolePresentation
         while (!gameBoard.IsInWinningConfiguration)
         {
             PrintGameBoard(gameBoard);
-            Console.WriteLine("Type tile that you would like to move");
+            Console.WriteLine("Type the tile that you would like to move");
             var tileString = Console.ReadLine();
             if (!int.TryParse(tileString, out var tile))
             {
