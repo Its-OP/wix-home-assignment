@@ -4,13 +4,13 @@ namespace UnitTests.GameBoardTests;
 
 public class GameBoardMoveTileTests
 {
-    private const int EmptyTile = 0;
+    private static int EmptyTile => GameBoard.EmptyTilePlaceholder;
     
-    [TestCase(2, Direction.Down)]
-    [TestCase(10, Direction.Up)]
-    [TestCase(7, Direction.Left)]
-    [TestCase(5, Direction.Right)]
-    public void GameBoardMoveTile_TileCanBeMovedInTheProvidedDirection_TileMoved(int tile, Direction direction)
+    [TestCase(2)]
+    [TestCase(10)]
+    [TestCase(7)]
+    [TestCase(5)]
+    public void GameBoardMoveTile_TileCanBeMoved_TileMoved(int tile)
     {
         var tilesConfiguration = GetValidFourByFourTilesConfiguration();
         var board = new GameBoard(tilesConfiguration);
@@ -18,7 +18,7 @@ public class GameBoardMoveTileTests
         var initialPositionOfTileToBeMoved = GetPositionOfTile(tile, tilesConfiguration);
         
         // Act
-        board.MoveTile(tile, direction);
+        board.MoveTile(tile);
         var updatedTilesConfiguration = board.GetTilesConfiguration();
         
         // Assert
@@ -27,16 +27,15 @@ public class GameBoardMoveTileTests
     }
     
     [Test]
-    public void GameBoardMoveTile_TileCanBeMovedInTheProvidedDirection_TileMoved()
+    public void GameBoardMoveTile_TileCanBeMoved_ReturnTrue()
     {
         var initialTilesConfiguration = GetValidFourByFourTilesConfiguration();
 
         const int tileThatCanBeMoved = 2;
-        const Direction directionWhereTileCanBeMoved = Direction.Down;
         var board = new GameBoard(initialTilesConfiguration);
         
         // Act
-        var tileMoved = board.MoveTile(tileThatCanBeMoved, directionWhereTileCanBeMoved);
+        var tileMoved = board.MoveTile(tileThatCanBeMoved);
         
         // Assert
         Assert.That(tileMoved, Is.EqualTo(true));
@@ -49,7 +48,7 @@ public class GameBoardMoveTileTests
         var board = new GameBoard(initialTilesConfiguration);
         
         // Act
-        board.MoveTile(int.MaxValue, Direction.Down);
+        board.MoveTile(int.MaxValue);
         
         // Assert
         Assert.That(initialTilesConfiguration, Is.EqualTo(board.GetTilesConfiguration()));
@@ -62,39 +61,39 @@ public class GameBoardMoveTileTests
         var board = new GameBoard(initialTilesConfiguration);
         
         // Act
-        var tileMoved = board.MoveTile(int.MaxValue, Direction.Down);
+        var tileMoved = board.MoveTile(int.MaxValue);
         
         // Assert
         Assert.That(tileMoved, Is.EqualTo(false));
     }
     
-    [TestCase(1, Direction.Down)]
-    [TestCase(5, Direction.Left)]
-    [TestCase(10, Direction.Right)]
-    [TestCase(6, Direction.Up)]
-    public void GameBoardMoveTile_TryMoveTileOverNonEmptyOne_DoNotMoveTiles(int tile, Direction direction)
+    [TestCase(1)]
+    [TestCase(4)]
+    [TestCase(9)]
+    [TestCase(15)]
+    public void GameBoardMoveTile_TileCannotBeMoved_DoNotMoveTiles(int tile)
     {
         var initialTilesConfiguration = GetValidFourByFourTilesConfiguration();
         var board = new GameBoard(initialTilesConfiguration);
         
         // Act
-        board.MoveTile(tile, direction);
+        board.MoveTile(tile);
         
         // Assert
         Assert.That(initialTilesConfiguration, Is.EqualTo(board.GetTilesConfiguration()));
     }
     
-    [TestCase(1, Direction.Down)]
-    [TestCase(5, Direction.Left)]
-    [TestCase(10, Direction.Right)]
-    [TestCase(6, Direction.Up)]
-    public void GameBoardMoveTile_TryMoveTileOverNonEmptyOne_ReturnFalse(int tile, Direction direction)
+    [TestCase(1)]
+    [TestCase(4)]
+    [TestCase(9)]
+    [TestCase(15)]
+    public void GameBoardMoveTile_TileCannotBeMoved_ReturnFalse(int tile)
     {
         var initialTilesConfiguration = GetValidFourByFourTilesConfiguration();
         var board = new GameBoard(initialTilesConfiguration);
         
         // Act
-        var tileMoved = board.MoveTile(tile, direction);
+        var tileMoved = board.MoveTile(tile);
 
         // Assert
         Assert.That(tileMoved, Is.EqualTo(false));

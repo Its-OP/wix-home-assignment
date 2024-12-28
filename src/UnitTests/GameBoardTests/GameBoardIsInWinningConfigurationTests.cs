@@ -34,7 +34,7 @@ public class GameBoardIsInWinningConfigurationTests
         var board = new GameBoard(initialTilesConfiguration);
         
         // Act
-        board.MoveTile(15, Direction.Left);
+        board.MoveTile(15);
 
         // Assert
         Assert.That(board.IsInWinningConfiguration, Is.EqualTo(true));
@@ -48,7 +48,7 @@ public class GameBoardIsInWinningConfigurationTests
         var board = new GameBoard(initialTilesConfiguration);
         
         // Act
-        board.MoveTile(15, Direction.Right);
+        board.MoveTile(15);
 
         // Assert
         Assert.That(board.IsInWinningConfiguration, Is.EqualTo(false));

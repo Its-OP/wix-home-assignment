@@ -5,12 +5,15 @@ namespace Solution.Entities;
 
 public class GameBoard
 {
-    private const int EmptyTilePlaceholder = 0;
+    public const int EmptyTilePlaceholder = 0;
     private readonly int[,] _tilesConfiguration;
     private readonly Dictionary<int, Point> _tilesCoordinates;
-
     private long _deviationFromWinningConfiguration;
+    
+    public int NumberOfRows => _tilesConfiguration.GetLength(0);
+    public int NumberOfColumns => _tilesConfiguration.GetLength(1);
     public bool IsInWinningConfiguration => _deviationFromWinningConfiguration == 0;
+    public int MaxTile => NumberOfRows * NumberOfColumns - 1;
 
     public GameBoard(int[,] tiles)
     {
@@ -31,7 +34,7 @@ public class GameBoard
         }
     }
 
-    public bool MoveTile(int tile, Direction direction)
+    public bool MoveTile(int tile)
     {
         if (!TileFitsTheBoard(tile, _tilesConfiguration))
             return false;
@@ -39,17 +42,15 @@ public class GameBoard
         var coordinatesOfEmptyTile = _tilesCoordinates[EmptyTilePlaceholder];
         var coordinatesOfMovedTile = _tilesCoordinates[tile];
 
-        switch (direction)
+        if (TileIsAboveTheEmptyOne(coordinatesOfMovedTile, coordinatesOfEmptyTile)
+            || TileIsBelowTheEmptyOne(coordinatesOfMovedTile, coordinatesOfEmptyTile)
+            || TileIsToTheLeftOfTheEmptyOne(coordinatesOfMovedTile, coordinatesOfEmptyTile)
+            || TileIsToTheRightOfTheEmptyOne(coordinatesOfMovedTile, coordinatesOfEmptyTile))
         {
-            case Direction.Down when coordinatesOfEmptyTile.I == coordinatesOfMovedTile.I + 1 && coordinatesOfEmptyTile.J == coordinatesOfMovedTile.J:
-            case Direction.Up when coordinatesOfEmptyTile.I == coordinatesOfMovedTile.I - 1 && coordinatesOfEmptyTile.J == coordinatesOfMovedTile.J:
-            case Direction.Left when coordinatesOfEmptyTile.I == coordinatesOfMovedTile.I && coordinatesOfEmptyTile.J == coordinatesOfMovedTile.J-1:
-            case Direction.Right when coordinatesOfEmptyTile.I == coordinatesOfMovedTile.I && coordinatesOfEmptyTile.J == coordinatesOfMovedTile.J+1:
-                SwapTileWithEmptyOne(coordinatesOfMovedTile, tile);
-                return true;
-            default:
-                return false;
+            SwapTileWithEmptyOne(coordinatesOfMovedTile, tile);
+            return true;
         }
+        return false;
     }
 
     public int[,] GetTilesConfiguration()
@@ -134,4 +135,13 @@ public class GameBoard
         
         return deviation;
     }
+
+    private bool TileIsToTheLeftOfTheEmptyOne(Point tileCoordinates, Point emptyTileCoordinates) =>
+        emptyTileCoordinates.I == tileCoordinates.I && emptyTileCoordinates.J == tileCoordinates.J+1;
+    private bool TileIsToTheRightOfTheEmptyOne(Point tileCoordinates, Point emptyTileCoordinates) =>
+        emptyTileCoordinates.I == tileCoordinates.I && emptyTileCoordinates.J == tileCoordinates.J-1;
+    private bool TileIsAboveTheEmptyOne(Point tileCoordinates, Point emptyTileCoordinates) =>
+        emptyTileCoordinates.I == tileCoordinates.I - 1 && emptyTileCoordinates.J == tileCoordinates.J;
+    private bool TileIsBelowTheEmptyOne(Point tileCoordinates, Point emptyTileCoordinates) =>
+        emptyTileCoordinates.I == tileCoordinates.I + 1 && emptyTileCoordinates.J == tileCoordinates.J;
 }
