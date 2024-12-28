@@ -36,7 +36,7 @@ public class GameBoard
 
     public bool MoveTile(int tile)
     {
-        if (!TileFitsTheBoard(tile, _tilesConfiguration))
+        if (!HasTile(tile))
             return false;
         
         var coordinatesOfEmptyTile = _tilesCoordinates[EmptyTilePlaceholder];
@@ -56,6 +56,11 @@ public class GameBoard
     public int[,] GetTilesConfiguration()
     {
         return (int[,])_tilesConfiguration.Clone();
+    }
+
+    public bool HasTile(int tile)
+    {
+        return _tilesCoordinates.ContainsKey(tile);
     }
 
     private Dictionary<int, Point> GetTilesCoordinates(int[,] tiles)
