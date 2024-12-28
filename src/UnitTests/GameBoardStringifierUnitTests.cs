@@ -1,4 +1,5 @@
-﻿using Solution.Presentation;
+﻿using Solution.Entities;
+using Solution.Presentation;
 
 namespace UnitTests;
 
@@ -8,8 +9,8 @@ public class GameBoardStringifierUnitTests
     public void ToString_ReturnCorrectStringRepresentation()
     {
         // Arrange
-        var tilesConfiguration = new [,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 0 } };
-        const string expectedStringifiedTilesConfiguration = """
+        var gameBoard = new GameBoard(new [,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 0 } });
+        const string expectedStringifiedGameBoard = """
                                                  1  2  3  4
                                                  5  6  7  8
                                                  9 10 11 12
@@ -17,9 +18,9 @@ public class GameBoardStringifierUnitTests
                                                 """;
         
         // Act
-        var stringifiedTilesConfiguration = GameBoardStringifier.ToString(tilesConfiguration);
+        var stringifiedGameBoard = GameBoardStringifier.ToString(gameBoard);
         
         // Assert
-        Assert.That(stringifiedTilesConfiguration, Is.EqualTo(expectedStringifiedTilesConfiguration));
+        Assert.That(stringifiedGameBoard, Is.EqualTo(expectedStringifiedGameBoard));
     }
 }
