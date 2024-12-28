@@ -1,6 +1,6 @@
 ﻿using Solution.Entities;
 
-namespace UnitTests.BoardTests;
+namespace UnitTests.GameBoardTests;
 
 public class GameBoardIsInWinningConfigurationTests
 {
