@@ -14,7 +14,7 @@ public class BoardInitializationTests
         var board = new GameBoard(tiles);
         
         // Assert
-        Assert.That(board.GetTiles(), Is.EqualTo(tiles));
+        Assert.That(board.GetTilesConfiguration(), Is.EqualTo(tiles));
     }
     
     [Test]
