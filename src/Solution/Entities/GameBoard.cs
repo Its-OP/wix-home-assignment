@@ -61,46 +61,7 @@ public class GameBoard
         return _tilesCoordinates.ContainsKey(tile);
     }
 
-    private Dictionary<int, Point> GetTilesCoordinates(int[,] tiles)
-    {
-        var coordinates = new Dictionary<int, Point>(tiles.GetLength(0) * tiles.GetLength(1));
-        
-        for (var i = 0; i < tiles.GetLength(0); i++) 
-        { 
-            for (var j = 0; j < tiles.GetLength(1); j++) 
-            { 
-                var tile = tiles[i, j];
-                coordinates[tile] = new Point(i, j);
-            } 
-        }
-        
-        return coordinates;
-    }
-
-    private (bool, string) SetOfTilesIsValid(int[,] tiles)
-    {
-        var numberOfRows = tiles.GetLength(0);
-        var numberOfColumns = tiles.GetLength(1);
-        var set = new HashSet<int>(numberOfRows * numberOfColumns);
-        
-        for (var i = 0; i < numberOfRows; i++) 
-        { 
-            for (var j = 0; j < numberOfColumns; j++) 
-            { 
-                var tile = tiles[i, j];
-                if (!TileFitsTheBoard(tile, tiles))
-                    return (false, $"Tile {tile} is out of range");
-                if (set.Contains(tile))
-                    return (false, $"Tile {tile} is duplicated");
-                
-                set.Add(tile);
-            } 
-        }
-        
-        return (true, string.Empty);
-    }
-
-    private bool TileFitsTheBoard(int tile, int[,] tilesConfiguration)
+    private static bool TileFitsTheBoard(int tile, int[,] tilesConfiguration)
     {
         var maxElement = tilesConfiguration.GetLength(0) * tilesConfiguration.GetLength(1) - 1;
         var minElement = EmptyTilePlaceholder;
@@ -126,7 +87,7 @@ public class GameBoard
         _deviationFromWinningConfiguration += newDeviationForEmptyTile + newDeviationForMovedTile - currentDeviationForEmptyTile - currentDeviationForMovedTile;
     }
 
-    private int GetDeviationForTile(int tile, Point coordinates, int[,] tilesConfiguration)
+    private static int GetDeviationForTile(int tile, Point coordinates, int[,] tilesConfiguration)
     {
         var deviation = 0;
         if (coordinates.I != tilesConfiguration.GetLength(0) - 1 || coordinates.J != tilesConfiguration.GetLength(1) - 1)
@@ -149,4 +110,43 @@ public class GameBoard
         emptyTileCoordinates.I == tileCoordinates.I - 1 && emptyTileCoordinates.J == tileCoordinates.J;
     private bool TileIsBelowTheEmptyOne(Point tileCoordinates, Point emptyTileCoordinates) =>
         emptyTileCoordinates.I == tileCoordinates.I + 1 && emptyTileCoordinates.J == tileCoordinates.J;
+    
+    private static Dictionary<int, Point> GetTilesCoordinates(int[,] tiles)
+    {
+        var coordinates = new Dictionary<int, Point>(tiles.GetLength(0) * tiles.GetLength(1));
+        
+        for (var i = 0; i < tiles.GetLength(0); i++) 
+        { 
+            for (var j = 0; j < tiles.GetLength(1); j++) 
+            { 
+                var tile = tiles[i, j];
+                coordinates[tile] = new Point(i, j);
+            } 
+        }
+        
+        return coordinates;
+    }
+
+    private static (bool, string) SetOfTilesIsValid(int[,] tiles)
+    {
+        var numberOfRows = tiles.GetLength(0);
+        var numberOfColumns = tiles.GetLength(1);
+        var set = new HashSet<int>(numberOfRows * numberOfColumns);
+        
+        for (var i = 0; i < numberOfRows; i++) 
+        { 
+            for (var j = 0; j < numberOfColumns; j++) 
+            { 
+                var tile = tiles[i, j];
+                if (!TileFitsTheBoard(tile, tiles))
+                    return (false, $"Tile {tile} is out of range");
+                if (set.Contains(tile))
+                    return (false, $"Tile {tile} is duplicated");
+                
+                set.Add(tile);
+            } 
+        }
+        
+        return (true, string.Empty);
+    }
 }
