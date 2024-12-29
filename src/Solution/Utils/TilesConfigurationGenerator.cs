@@ -2,13 +2,15 @@
 
 public static class TilesConfigurationGenerator
 {
-    public static int[,] Generate(int boardSize)
+    public static int[,] Generate(int boardSize, int placeholderForEmptyTile)
     {
         Guard.That(boardSize > 0, $"Board size of {boardSize} is invalid");
         
         var rng = new Random();
         // Generate a sequence of numbers from 0 to N^2-1 and randomly shuffle them
-        var tilesUnfolded = Enumerable.Range(0, (int)Math.Pow(boardSize, 2)).OrderBy(_ => rng.Next()).ToList();
+        var tilesUnfolded = Enumerable.Range(1, (int)Math.Pow(boardSize, 2)).ToList();
+        tilesUnfolded.Add(placeholderForEmptyTile);
+        var shuffledTilesUnfolded = tilesUnfolded.OrderBy(_ => rng.Next()).ToList();
         
         var tilesConfiguration = new int[boardSize, boardSize];
         // Fold the sequence into a board of tiles
@@ -16,7 +18,7 @@ public static class TilesConfigurationGenerator
         {
             for (var j = 0; j < boardSize; j++)
             {
-                tilesConfiguration[i, j] = tilesUnfolded[i * boardSize + j];
+                tilesConfiguration[i, j] = shuffledTilesUnfolded[i * boardSize + j];
             }
         }
         

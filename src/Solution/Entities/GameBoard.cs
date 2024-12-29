@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Solution.Utils;
+﻿using Solution.Utils;
 
 namespace Solution.Entities;
 
@@ -23,9 +22,9 @@ public class GameBoard
         _tilesCoordinates = GetTilesCoordinates(tiles);
         _tilesConfiguration = tiles;
         
-        for (var i = 0; i < tiles.GetLength(0); i++) 
+        for (var i = 0; i < NumberOfRows; i++) 
         { 
-            for (var j = 0; j < tiles.GetLength(1); j++) 
+            for (var j = 0; j < NumberOfColumns; j++) 
             {
                 var tile = tiles[i, j];
                 _deviationFromWinningConfiguration += GetDeviationForTile(tile, new Point(i, j), tiles);
@@ -80,13 +79,15 @@ public class GameBoard
 
     private (bool, string) SetOfTilesIsValid(int[,] tiles)
     {
-        var set = new HashSet<int>(tiles.GetLength(0) * tiles.GetLength(1));
+        var numberOfRows = tiles.GetLength(0);
+        var numberOfColumns = tiles.GetLength(1);
+        var set = new HashSet<int>(numberOfRows * numberOfColumns);
         
-        for (var i = 0; i < tiles.GetLength(0); i++) 
+        for (var i = 0; i < numberOfRows; i++) 
         { 
-            for (var j = 0; j < tiles.GetLength(1); j++) 
+            for (var j = 0; j < numberOfColumns; j++) 
             { 
-                var tile = tiles[i, j]; 
+                var tile = tiles[i, j];
                 if (!TileFitsTheBoard(tile, tiles))
                     return (false, $"Tile {tile} is out of range");
                 if (set.Contains(tile))

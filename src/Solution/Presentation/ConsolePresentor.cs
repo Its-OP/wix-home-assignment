@@ -7,9 +7,9 @@ public static class ConsolePresentation
 {
     private const char EmptyTilePlaceholder = '-';
     
-    public static void PlayGame(int boardSize)
+    public static void PlayGame(int boardSize, int boardEmptyTilePlaceholder)
     {
-        var gameBoard = new GameBoard(TilesConfigurationGenerator.Generate(boardSize));
+        var gameBoard = new GameBoard(TilesConfigurationGenerator.Generate(boardSize, boardEmptyTilePlaceholder));
         Console.WriteLine("Welcome to 15 Puzzle! Press any key to continue...");
         Console.ReadKey();
 
