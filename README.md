@@ -36,6 +36,6 @@ In the solved state, the deviation is 0. For any cell *(i, j)*, if the correct t
 Let *d1* be the deviation on turn 1. After a single move, only two cells change: the empty cell and the cell whose tile was moved. We remove their old deviations and add the new ones:
 
 ```latex
-d₂ = d₁ - d(i₁, j₁) - d(i₂, j₂) + d′(i₁, j₁) + d′(i₂, j₂)```
-
+d₂ = d₁ - d(i₁, j₁) - d(i₂, j₂) + d′(i₁, j₁) + d′(i₂, j₂)
+```
 Hence, after the initial O(N²) computation during board generation, verifying the winning configuration is O(1) per turn.
