@@ -20,7 +20,7 @@ public class GameBoardGetTilesConfigurationUnitTests
     }
     
     [Test]
-    public void GetTilesConfiguration_BoardRemainsUnchanged_ReturnTheSameConfiguration()
+    public void GetTilesConfiguration_BoardRemainsUnchanged_ReturnEqualConfigurations()
     {
         // Arrange
         var board = new GameBoard(_defaultTilesConfiguration);

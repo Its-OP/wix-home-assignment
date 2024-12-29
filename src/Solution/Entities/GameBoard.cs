@@ -113,11 +113,13 @@ public class GameBoard
     
     private static Dictionary<int, Point> GetTilesCoordinates(int[,] tiles)
     {
-        var coordinates = new Dictionary<int, Point>(tiles.GetLength(0) * tiles.GetLength(1));
+        var numberOfRows = tiles.GetLength(0);
+        var numberOfColumns = tiles.GetLength(1);
+        var coordinates = new Dictionary<int, Point>(numberOfRows * numberOfColumns);
         
-        for (var i = 0; i < tiles.GetLength(0); i++) 
+        for (var i = 0; i < numberOfRows; i++) 
         { 
-            for (var j = 0; j < tiles.GetLength(1); j++) 
+            for (var j = 0; j < numberOfColumns; j++) 
             { 
                 var tile = tiles[i, j];
                 coordinates[tile] = new Point(i, j);
