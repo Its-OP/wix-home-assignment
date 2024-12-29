@@ -8,7 +8,7 @@ public static class TilesConfigurationGenerator
         
         var rng = new Random();
         // Generate a sequence of numbers from 0 to N^2-1 and randomly shuffle them
-        var tilesUnfolded = Enumerable.Range(1, (int)Math.Pow(boardSize, 2)).ToList();
+        var tilesUnfolded = Enumerable.Range(1, (int)Math.Pow(boardSize, 2)-1).ToList();
         tilesUnfolded.Add(placeholderForEmptyTile);
         var shuffledTilesUnfolded = tilesUnfolded.OrderBy(_ => rng.Next()).ToList();
         
