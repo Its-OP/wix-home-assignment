@@ -36,9 +36,34 @@ Then, the player makes a roll of $4$, landing on the ladder with **value** of $9
 
 ![{CF68F2C6-3C7D-4BEA-BA6C-A727BC5A05DA}](https://github.com/user-attachments/assets/6077f54b-3bc8-4817-bf3c-d202710e88c9)
 
-# How to run
+# How to run the project
 1. Clone the repository
 2. From the root, run `docker build . -t wix-home-assignment`
 3. Then, run `docker run -it wix-home-assignment`
 
-# Implementation
+# Implementation logic
+The main idea behind this solution is to simplify the 2D board with weird folding logic to a 1D collection. Recall, that never before in this document the 2D coordinates of a **tile** have been mentioned - only **value** and **position**. I noticed this effect when solving the problem, and a simplification of the board-marix to a 1D list with indices representing **positions** and values - **values**, made the algorithms way more approachable.
+
+The solution can be logically split into 4 components - Board Generator, responsible for generating random S&L boards; Board Solver, responsible for finding an optimal sequence of dice throws for a given board; Board Folder, responsible for folding a 1D list into a board-matrix; and a Console UI, responsible for receiving player's commands, and printing the board.
+
+## Board Generator
+Board Generator is represented with a class, which takes the number of tiles on a board, probability of either a snake or a ladder to spawn on a **tile**, and probability of a non-empty **tile** to contain a ladder. The class can work with an arbitrary positive integer number of tiles - even prime numbers, which by their nature cannot be folded into a 2D board. For every **tile**, besides the first and the last ones, it attempts to generate either a snake or a ladder, based on the two probability parameters mentioned before. The generator is hardcoded to not generate more than 5 snakes in a row, since such a pattern can make the board unsolvable.
+
+As a result of the generation, the generator returns a 1D list of **tiles**.
+
+## Board Solver
+Board Solve is also represented with a single class. The purpose of the class is to take the 1D list, produced by the generator, and find the optimal sequence of dice throws.
+
+In order to find such a sequence, I modified the standard BFS algorithm, used to solve the [Snakes and Ladders problem on LeetCode](https://leetcode.com/problems/snakes-and-ladders/description/). In my version, every visited **tile** is represented with a linked list node, connected to the node of a **tile** from where the current one was reached first. Therefore, when the final **tile** is reached, it becomes trivial to backtrack to the origin, and retrieve the dice roll values.
+
+The algorithm has both time and space complexities of $O(N)$, where $N$ is the **total number of tiles** of the board.
+
+## Board Folder
+Initially, the board folder was a part of the Console UI. However, eventually, I figured out that there might be other presentation modes (i.e. Web UI), which would require the board to be folded, so I decided to move this logic into a separate module.
+
+The module itself works relatively simple. It takes a 1D list of tiles along with dimensions of the desired board, throwing an error if the dimensions are invalid for the number of **tiles**. Then, it folds the list into the board with the given dimensions.
+
+Note, that folding **tiles** into a board, makes it harder to represent both **value** and **position** of each tile at once. To address this problem, at this step, I decided to replace integers with dedicated `Tile` structures, containing both **value** and **position** of the respective tiles.
+
+## Console UI
+Console UI is represented by a few classes, responsible for stringifying the board, and interacting with the player. The board stringifier builds a pretty table with colored cues for optimal throws from a board-matrix. The class responsible for interacting with the player is responsible for taking the player's inputs; validating and processing them; and printing the solved board.
