@@ -8,7 +8,7 @@ public static class Stringifier
     private const string Green  = "\u001b[32m";
     private const string Reset = "\u001b[0m";
     
-    public static string StringifyBoardSolution(Tile[,] board, IReadOnlyList<int> solution)
+    public static string StringifyBoard(Tile[,] board, IReadOnlyList<int> solution)
     {
         var numRows = board.GetLength(0);
         var numCols = board.GetLength(1);
@@ -46,7 +46,7 @@ public static class Stringifier
             {
                 var tile = board[row, col];
                 var rawCellContents = tile.IsSnakeOrLadder ? (tile.Value + 1).ToString() : "-1";
-                var cellContents = rawCellContents;   // visible text without colour codes
+                var cellContents = rawCellContents;
                 if (redCells.Contains((row, col)))
                 {
                     cellContents = $"{Red}{cellContents}{Reset}";
@@ -59,7 +59,7 @@ public static class Stringifier
                 // 1-space left padding
                 rowSb.Append(' ');
                 rowSb.Append(cellContents);
-                // Fill the remaining width (gives ≥1 space on the right)
+                // Fill the remaining width
                 rowSb.Append(new string(' ', innerWidth - 1 - rawCellContents.Length));
             }
 
@@ -68,9 +68,13 @@ public static class Stringifier
         }
 
         // bottom border
-        sb.AppendLine(horizontalBorder);
-        sb.AppendLine($"The optimal combination of dice rolls is: [ {string.Join(", ", solution)} ]");
+        sb.Append(horizontalBorder);
         return sb.ToString();
+    }
+
+    public static string StringifySolution(IReadOnlyList<int> solution)
+    {
+        return $"The optimal combination of dice rolls is: [ {string.Join(", ", solution)} ]";
     }
 
     private static (int, int) PositionToCoordinates(int position, int numRows, int numCols)

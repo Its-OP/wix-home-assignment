@@ -5,17 +5,9 @@ public static class Solver
     // Although we should never get stuck in a while loop (even for invalid boards), this constant acts as a fail-safe mechanism
     private const int MaxIterations = 1000;
     
-    /// <summary>
-    /// Expects a list where:
-    /// <list type="number">
-    ///   <item>
-    ///     <description>The index of each element represents the position of the tile minus 1.</description>
-    ///   </item>
-    ///   <item>
-    ///     <description>The value of each element represents the value of the tile.</description>
-    ///   </item>
-    /// </list>
-    /// </summary>
+    // Expects a list where:
+    // 1. The index of each element represents the position of the tile minus 1.
+    // 2. The value of each element represents the value of the tile.
     public static IReadOnlyList<int> SolveBoard(IReadOnlyList<int> board, int maxIterations = MaxIterations)
     {
         if (board.Count == 0)
@@ -37,14 +29,12 @@ public static class Solver
             var currentQueueLength = queue.Count;
             for (var i = 0; i < currentQueueLength && finalTile is null; i++)
             {
-                // Get tile number
                 var tile = queue.Dequeue();
                 // A small optimization trick, so if the last tile can be reached directly from the current one, it is reached immediately
                 for (var diceRoll = 6; diceRoll >= 1; diceRoll--)
                 {
                     // Position of the next tile, capped by the final tile of the board
                     var nextTilePosition = Math.Min(tile.Position + diceRoll, board.Count - 1);
-                    // Get tile, where you can move from the current one immediately. It points to itself for a regular tile; in-front for a ladder; and behind for a snake
                     var nextTileValue = board[nextTilePosition];
                     
                     if (nextTileValue < 0 || nextTileValue > board.Count - 1)

@@ -21,7 +21,6 @@ public static class ArrayUtils
                 var colIdx = leftToRight ? colNumber : numCols - 1 - colNumber;
             
                 var value = flatBoard[position];
-                // Set to -1 for regular tiles, and to the tile value for snakes/ladders
                 board[row, colIdx] = new Tile(value, position);
                 position++;
                 colNumber++;

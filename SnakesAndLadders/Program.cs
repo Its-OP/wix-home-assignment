@@ -63,9 +63,11 @@ while (true)
     var solution = Solver.SolveBoard(board);
 
     var rectangularBoard = ArrayUtils.FoldTilesIntoBoard(board, numRows, numCols);
-    var stringBoard = Stringifier.StringifyBoardSolution(rectangularBoard, solution);
+    var stringBoard = Stringifier.StringifyBoard(rectangularBoard, solution);
+    var stringSolution = Stringifier.StringifySolution(solution);
 
     Console.WriteLine(stringBoard);
+    Console.WriteLine(stringSolution);
     Console.WriteLine("Press any key to continue");
     Console.ReadKey();
     Console.WriteLine();
