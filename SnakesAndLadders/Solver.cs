@@ -16,7 +16,7 @@ public static class Solver
     ///   </item>
     /// </list>
     /// </summary>
-    public static IList<int> SolveBoard(IReadOnlyList<int> board, int maxIterations = MaxIterations)
+    public static IReadOnlyList<int> SolveBoard(IReadOnlyList<int> board, int maxIterations = MaxIterations)
     {
         if (board.Count == 0)
             throw new ArgumentException("Board must not be empty");
@@ -76,7 +76,7 @@ public static class Solver
     }
     
     // Backtrack the optimal path
-    private static IList<int> BuildDiceRollSequence(Tile finalTile)
+    private static IReadOnlyList<int> BuildDiceRollSequence(Tile finalTile)
     {
         var diceSequence = new List<int>();
         for (var curr = finalTile; curr.DiceRoll is not null; curr = curr.Previous)
