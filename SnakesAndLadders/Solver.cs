@@ -9,10 +9,10 @@ public static class Solver
     /// Expects a list where:
     /// <list type="number">
     ///   <item>
-    ///     <description>The index of each element represents the tile number minus 1.</description>
+    ///     <description>The index of each element represents the position of the tile minus 1.</description>
     ///   </item>
     ///   <item>
-    ///     <description>The value of each element is the square the player can jump to: equal to the index for a regular tile; greater for a ladder; and smaller for a snake.</description>
+    ///     <description>The value of each element represents the value of the tile.</description>
     ///   </item>
     /// </list>
     /// </summary>
@@ -22,13 +22,13 @@ public static class Solver
             throw new ArgumentException("Board must not be empty");
         
         // BFS solver for Snake and Ladders
-        var queue = new Queue<Tile>();
-        queue.Enqueue(Tile.CreateFirst(board[0]));
+        var queue = new Queue<TileNode>();
+        queue.Enqueue(TileNode.CreateFirst(board[0]));
         
         // We can avoid creating a set of visited tiles by modifying the board in-place.
         // However, I don't like such an approach, since the caller typically expects parameters to be immutable
-        var visitedTiles = new HashSet<Tile>();
-        Tile? finalTile = null;
+        var visitedTiles = new HashSet<TileNode>();
+        TileNode? finalTile = null;
         var iteration = 0;
         
         while (queue.Count > 0 && finalTile is null && iteration < maxIterations)
@@ -43,21 +43,21 @@ public static class Solver
                 for (var diceRoll = 6; diceRoll >= 1; diceRoll--)
                 {
                     // Position of the next tile, capped by the final tile of the board
-                    var nextTilePosition = Math.Min(tile.Value + diceRoll, board.Count - 1);
+                    var nextTilePosition = Math.Min(tile.Position + diceRoll, board.Count - 1);
                     // Get tile, where you can move from the current one immediately. It points to itself for a regular tile; in-front for a ladder; and behind for a snake
                     var nextTileValue = board[nextTilePosition];
                     
                     if (nextTileValue < 0 || nextTileValue > board.Count - 1)
-                        throw new ArgumentException($"Tile value of {tile.Value} is out of range");
+                        throw new ArgumentException($"Tile value of {tile.Position} is out of range");
                     
                     // The final tile can be reached right from the current one
                     if (nextTileValue == board.Count - 1)
                     {
-                        finalTile = Tile.Create(board.Count - 1, diceRoll, tile);
+                        finalTile = TileNode.Create(board.Count - 1, diceRoll, tile);
                         return BuildDiceRollSequence(finalTile);
                     }
                     
-                    var nextTile = Tile.Create(nextTileValue, diceRoll, tile);
+                    var nextTile = TileNode.Create(nextTileValue, diceRoll, tile);
                     if (!visitedTiles.Add(nextTile))
                         continue;
 
@@ -76,7 +76,7 @@ public static class Solver
     }
     
     // Backtrack the optimal path
-    private static IReadOnlyList<int> BuildDiceRollSequence(Tile finalTile)
+    private static IReadOnlyList<int> BuildDiceRollSequence(TileNode finalTile)
     {
         var diceSequence = new List<int>();
         for (var curr = finalTile; curr.DiceRoll is not null; curr = curr.Previous)
@@ -89,41 +89,41 @@ public static class Solver
         return diceSequence;
     }
     
-    private class Tile : IEquatable<Tile>
+    private class TileNode : IEquatable<TileNode>
     {
-        public int Value { get; private set; }
+        public int Position { get; private set; }
         public int? DiceRoll { get; private set; }
-        public Tile? Previous { get; private set; }
+        public TileNode? Previous { get; private set; }
 
-        private Tile(int value, int? diceRoll, Tile? previous)
+        private TileNode(int position, int? diceRoll, TileNode? previous)
         {
             if (diceRoll is < 1 or > 6)
                 throw new ArgumentOutOfRangeException(nameof(diceRoll));
             
-            Value = value;
+            Position = position;
             DiceRoll = diceRoll;
             Previous = previous;
         }
 
-        public static Tile CreateFirst(int value)
+        public static TileNode CreateFirst(int value)
         {
-            return new Tile(value, null, null);
+            return new TileNode(value, null, null);
         }
 
-        public static Tile Create(int value, int diceRoll, Tile previous)
+        public static TileNode Create(int value, int diceRoll, TileNode previous)
         {
-            return new Tile(value, diceRoll, previous);
+            return new TileNode(value, diceRoll, previous);
         }
 
-        public bool Equals(Tile? other)
+        public bool Equals(TileNode? other)
         {
             if (other is null) return false;
-            return Value == other.Value;
+            return Position == other.Position;
         }
 
         public override int GetHashCode()
         {
-            return Value;
+            return Position;
         }
     }
 }
