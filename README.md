@@ -31,10 +31,10 @@ the board is alternated according to the Boustrophedon style. Therefore, the las
 When the board is printed, regular **tiles** are represented with $-1$, while snakes and ladders are represented with their **values**. Additionally, to improve the user experience, the board highlights **tiles** visited by dice rolls (when using the suggested
 dice combination) in red, and **tiles** visited by climbing up a ladder or rolling down a snake in green.
 
-Take a look at the example below. The player starts in the bottom left corner, and makes a dice roll of 6, landing on a ladder with **value** of 14 (highlighted in red). This ladder moves the player to **tile** 14, highlighted in green right above.
-Then, the player makes a roll of $4$, landing on the ladder with **value** of $94$, which moves them to the **tile**, highlighted in green, at the very top of the board. From there, they roll another $6$ to land at the final **tile**.
+Take a look at the example below. The player starts in the bottom left corner, and makes a dice roll of 1, landing on a ladder with **value** of 82 (highlighted in red). This ladder moves the player to **tile** 82, highlighted in green.
+Then, the player makes a roll of $5$, landing on the ladder with **value** of $97$, which moves them to the **tile**, highlighted in green, at the very top of the board. From there, they roll another $6$ to land at the final **tile**.
 
-![{CF68F2C6-3C7D-4BEA-BA6C-A727BC5A05DA}](https://github.com/user-attachments/assets/6077f54b-3bc8-4817-bf3c-d202710e88c9)
+![{FD4194AD-855F-4323-BE7F-97876B4A2E72}](https://github.com/user-attachments/assets/cae0afdd-2c5e-4441-9c3b-a5ab9a953032)
 
 # How to run the project
 1. Clone the repository
