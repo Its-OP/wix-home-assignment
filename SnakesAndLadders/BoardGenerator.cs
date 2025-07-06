@@ -25,7 +25,7 @@ public class BoardGenerator
 
     public IReadOnlyList<int> GenerateBoard(int numberOfTiles)
     {
-        if (numberOfTiles <= 1)
+        if (numberOfTiles < 1)
             throw new ArgumentException("Board must have at least one tile");
         
         var board = new int[numberOfTiles];

@@ -6,6 +6,21 @@ namespace UnitTests;
 public class BoardGeneratorUnitTests
 {
     private const int NumberOfTiles = 100;
+
+    [TestCase(25)]
+    [TestCase(100)]
+    [TestCase(1)]
+    public void GenerateBoard_ResultingBoardHasCorrectNumberOfTiles(int numberOfTiles)
+    {
+        // Arrange
+        var generator = new BoardGenerator();
+        
+        // Act
+        var board = generator.GenerateBoard(numberOfTiles);
+        
+        // Assert
+        Assert.That(board, Has.Count.EqualTo(numberOfTiles));
+    }
     
     [Test]
     public void GenerateBoard_ZeroProbabilityForSnakeOrLadder_EveryTilePointsToItself()

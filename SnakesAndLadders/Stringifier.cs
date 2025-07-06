@@ -63,7 +63,13 @@ public static class Stringifier
                 rowSb.Append(new string(' ', innerWidth - 1 - rawCellContents.Length));
             }
 
-            rowSb.Append('|');
+            var leftTile = board[row, 0];
+            var rightTile = board[row, numCols-1];
+            var fromLeftToRight = leftTile.Position < rightTile.Position;
+            
+            rowSb.Append("| ");
+            var directionHelper = $"{leftTile.Position + 1} {(fromLeftToRight ? "\u2192" : "\u2190")} {rightTile.Position + 1}";
+            rowSb.Append(directionHelper);
             sb.AppendLine(rowSb.ToString());
         }
 

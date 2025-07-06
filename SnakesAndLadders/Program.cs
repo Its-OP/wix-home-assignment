@@ -2,6 +2,7 @@
 
 while (true)
 {
+    Console.Clear();
     var numRows = 0;
     var numRowsIsValid = false;
     while (!numRowsIsValid)
@@ -68,7 +69,7 @@ while (true)
 
     Console.WriteLine(stringBoard);
     Console.WriteLine(stringSolution);
-    Console.WriteLine("Press any key to continue");
+    Console.WriteLine("Press any key to continue (the console will be cleared)");
     Console.ReadKey();
     Console.WriteLine();
 }
