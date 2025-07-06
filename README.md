@@ -37,9 +37,10 @@ Then, the player makes a roll of $5$, landing on the ladder with **value** of $9
 ![{FD4194AD-855F-4323-BE7F-97876B4A2E72}](https://github.com/user-attachments/assets/cae0afdd-2c5e-4441-9c3b-a5ab9a953032)
 
 # How to run the project
-1. Clone the repository
-2. From the root, run `docker build . -t wix-home-assignment`
-3. Then, run `docker run -it wix-home-assignment`
+1. `git clone https://github.com/Its-OP/wix-home-assignment.git`
+2. `cd wix-home-assignment`
+3. `docker build . -t wix-home-assignment`
+4. `docker run -it wix-home-assignment`
 
 # Implementation logic
 The main idea behind this solution is to simplify the 2D board with weird folding logic to a 1D collection. Recall, that never before in this document the 2D coordinates of a **tile** have been mentioned - only **value** and **position**. I noticed this effect when solving the problem, and a simplification of the board-marix to a 1D list with indices representing **positions** and values - **values**, made the algorithms way more approachable.
